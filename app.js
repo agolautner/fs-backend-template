@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const { logger } = require('./middleware/logger');
-const auth = require('./middleware/auth');
-const errorHandler = require('./middleware/errorHandler');
+const { logger } = require('./middlewares/logger');
+const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
 
-const dashboardRoutes = require('./route/dashboards');
+const dashboardRoutes = require('./routes/dashboards');
 
 app.use(
     cors({

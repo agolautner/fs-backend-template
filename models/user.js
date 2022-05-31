@@ -12,8 +12,12 @@ const dashboardSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({ //authenticateToken, 
-    username: {type: String, unique: true, required: true}, // "" should not be enough !!!!!NEEDS TO BE UNIQUE    
-    googleId: {type: String, unique: true, required: true}, // "" should not be enough + validation !!!!!NEEDS TO BE UNIQUE  
+    username: {type: String}, // "" should not be enough !!!!!NEEDS TO BE UNIQUE    
+    // googleId: {type: String, unique: true, required: true}, // "" should not be enough + validation !!!!!NEEDS TO BE UNIQUE
+    providers: {
+        google: {type: String, unique: true},
+        facebook: {type: String, unique: true}
+    },
     // email: {type: String, unique: true, required: true}, // "" should not be enough + validation !!!!!NEEDS TO BE UNIQUE  
     // password: {type: String, required: true}, // "" should not be enough! + validation
     dashboards: [dashboardSchema] // default empty list? 

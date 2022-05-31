@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
 const { startDB, stopDB, deleteAll } = require('./util/inMemoryDB');
 
-const User = require('../model/user')
+const User = require('../models/user')
 
 describe('/api/dashboards/ get tests', () => {
 
