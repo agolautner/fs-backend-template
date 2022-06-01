@@ -48,7 +48,20 @@ router.post('/api/login', async (req, res) => {
     if (!decoded) return res.sendStatus(500);
 
     const key = `providers.${provider}`
-    const user = await User.findOne({[key]: decoded.sub});
+    const user = await User.findOneAndUpdate(
+        {[key]: decoded.sub},
+        {
+            providers: { [provider]: decoded.sub }
+        },
+        { upsert: true }
+    );
+
+   const sessionToken = jwt.sign({"userId": user._id, "providers": user.providers}, process.env.JWT_SECRET, {expiresIn: '1h'});
+   res.json({sessionToken});
+
+    // User.create({
+    //     "providers": {[provider]: decoded.sub}
+    // })
 
     /* 
     receive google code --> get google token --> get userId
