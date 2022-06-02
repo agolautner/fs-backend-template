@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const httpModule = require('../utils/http')();
+const httpModule = require('../utils/http');
 const http = httpModule(); //later on we might want to set a baseURL as an argument to this function call
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -7,11 +7,12 @@ const User = require('../models/user');
 
 const config = {
     google: {
-        client_id: '',
-        client_secret: '',
-        redirect_uri: '',
-        token_endpoint: '',
+        client_id: '423125049963-vnhlm59vvirdjsquu0efhqvq5u91orks.apps.googleusercontent.com', //fefi's credentials, pls don't abuse them, thanks so much
+        client_secret: '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',
+        redirect_uri: 'http://localhost:3000/callback',
+        token_endpoint: 'https://oauth2.googleapis.com/token',
         grant_type: 'authorization_code',
+        scope: "openid"
     },
     /* facebook: {
         client_id: '', //app_id?
@@ -23,7 +24,7 @@ const config = {
 
 }
 
-router.post('/api/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const payload = req.body;
     if (!payload) return res.sendStatus(400);
 
@@ -53,10 +54,14 @@ router.post('/api/login', async (req, res) => {
         {
             providers: { [provider]: decoded.sub }
         },
-        { upsert: true }
+        { upsert: true, new: true }
     );
 
-   const sessionToken = jwt.sign({"userId": user._id, "providers": user.providers}, process.env.JWT_SECRET, {expiresIn: '1h'});
+   const sessionToken = jwt.sign(
+       { userId: user.id, providers: user.providers }, 
+       process.env.JWT_SECRET, 
+       { expiresIn: '1h' }
+    );
    res.json({sessionToken});
 
     // User.create({
@@ -68,3 +73,5 @@ router.post('/api/login', async (req, res) => {
     googleId exists ? send jwt token : create user and send jwt token
     */
 });
+
+module.exports = router;

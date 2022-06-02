@@ -6,8 +6,8 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
-
 const dashboardRoutes = require('./routes/dashboards');
+const userRoutes = require('./routes/user');
 
 app.use(
     cors({
@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(logger);
 
 app.use('/api/dashboards', dashboardRoutes);
+app.use('/api/user', userRoutes);
 
 app.get('/api/public', (req, res) => {
     console.log('public')
